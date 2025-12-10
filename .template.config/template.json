@@ -9,5 +9,21 @@
   "tags": {
     "language": "C#",
     "type": "project"
-  }
+  },
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "exclude": [
+            "**/.vs/**",
+            "**/.git/**",
+            "**/bin/**",
+            "**/obj/**",
+            "**/.idea/**",
+            "**/.vscode/**"
+          ]
+        }
+      ]
+    }
+  ]
 }
