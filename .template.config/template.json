@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Nguyen Phuc Dai",
+  "classifications": ["Web", "Microservice"],
+  "name": "Clean Architecture Microservice (.NET)",
+  "identity": "Dai.Templates.CleanService",
+  "shortName": "clean-service",
+  "sourceName": "AuthService",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  }
+}
