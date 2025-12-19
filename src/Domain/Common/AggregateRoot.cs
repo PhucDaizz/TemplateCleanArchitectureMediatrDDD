@@ -1,4 +1,4 @@
-﻿namespace Domain.Common
+﻿namespace AuthService.Domain.Common
 {
     public interface AggregateRoot
     {

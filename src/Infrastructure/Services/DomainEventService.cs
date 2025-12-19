@@ -1,8 +1,8 @@
-﻿using Application.Common.Interfaces;
-using Domain.Common;
+﻿using AuthService.Application.Common.Interfaces;
+using AuthService.Domain.Common;
 using MediatR;
 
-namespace Infrastructure.Services
+namespace AuthService.Infrastructure.Services
 {
     public class DomainEventService : IDomainEventService
     {

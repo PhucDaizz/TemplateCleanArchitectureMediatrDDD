@@ -1,4 +1,4 @@
-﻿namespace Application.Common.Interfaces
+﻿namespace AuthService.Application.Common.Interfaces
 {
     public interface IApplicationDbContext
     {

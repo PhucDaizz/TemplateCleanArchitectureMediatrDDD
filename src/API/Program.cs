@@ -1,13 +1,14 @@
-using API.StartUp;
-using CarbonTC.API.Common.ExceptionHandling;
-using CarbonTC.API.ExceptionHandling;
-using CarbonTC.API.Extensions;
-using Infrastructure;
+using AuthService.API.Common.ExceptionHandling;
+using AuthService.API.ExceptionHandling;
+using AuthService.API.Extensions;
+using AuthService.API.StartUp;
+using AuthService.Application;
+using AuthService.Infrastructure;
 using Microsoft.AspNetCore.Http.Features;
+using Nexus.BuildingBlocks.Extensions;
 using System.Diagnostics;
-using Application;
 
-namespace API
+namespace AuthService.API
 {
     public class Program
     {
@@ -31,6 +32,8 @@ namespace API
             });
 
             builder.Services.AddAuthenticationAndAuthorization(builder.Configuration);
+
+            builder.Services.AddSharedRabbitMQ(builder.Configuration);
 
             builder.AddDependencies();
             builder.Services.AddInfrastructure(builder.Configuration);

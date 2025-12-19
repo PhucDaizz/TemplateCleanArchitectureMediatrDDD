@@ -1,10 +1,10 @@
-﻿using Application.Common.Behaviours;
+﻿using AuthService.Application.Common.Behaviours;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace Application
+namespace AuthService.Application
 {
     public static class DependencyInjection
     {

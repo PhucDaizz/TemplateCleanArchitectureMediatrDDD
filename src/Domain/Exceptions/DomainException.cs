@@ -1,4 +1,4 @@
-﻿namespace Domain.Exceptions
+﻿namespace AuthService.Domain.Exceptions
 {
     public class DomainException : Exception
     {

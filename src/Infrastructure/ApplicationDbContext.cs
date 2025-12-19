@@ -1,8 +1,8 @@
-﻿using Application.Common.Interfaces;
-using Domain.Common.Domain.Common;
+﻿using AuthService.Application.Common.Interfaces;
+using AuthService.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure
+namespace AuthService.Infrastructure
 {
     public class ApplicationDbContext: DbContext, IApplicationDbContext
     {

@@ -1,6 +1,6 @@
-﻿using Domain.Common;
+﻿using AuthService.Domain.Common;
 
-namespace Application.Common.Interfaces
+namespace AuthService.Application.Common.Interfaces
 {
     public interface IDomainEventService
     {

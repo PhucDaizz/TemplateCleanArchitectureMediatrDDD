@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CarbonTC.API.ExceptionHandling
+namespace AuthService.API.ExceptionHandling
 {
     internal sealed class GlobalExceptionHandler(
         IProblemDetailsService problemDetailsService,

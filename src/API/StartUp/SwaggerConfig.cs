@@ -1,6 +1,6 @@
 ﻿using Microsoft.OpenApi.Models;
 
-namespace API.StartUp
+namespace AuthService.API.StartUp
 {
     public static class SwaggerConfig
     {

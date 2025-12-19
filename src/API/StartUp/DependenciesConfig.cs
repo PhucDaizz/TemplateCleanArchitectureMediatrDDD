@@ -1,4 +1,4 @@
-﻿namespace API.StartUp
+﻿namespace AuthService.API.StartUp
 {
     public static class DependenciesConfig
     {

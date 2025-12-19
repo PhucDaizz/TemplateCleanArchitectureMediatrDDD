@@ -1,4 +1,4 @@
-﻿using Domain.Common.Domain.Common;
+﻿using AuthService.Domain.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

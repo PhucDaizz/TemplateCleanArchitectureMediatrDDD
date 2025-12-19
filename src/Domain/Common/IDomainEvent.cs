@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Domain.Common
+namespace AuthService.Domain.Common
 {
     public interface IDomainEvent : INotification
     {

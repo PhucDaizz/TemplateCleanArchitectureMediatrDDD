@@ -1,7 +1,8 @@
-﻿using Application.Common.Interfaces;
+﻿using AuthService.Application.Common.Interfaces;
+using Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace Infrastructure
+namespace AuthService.Infrastructure
 {
     public class UnitOfWork : IUnitOfWork
     {

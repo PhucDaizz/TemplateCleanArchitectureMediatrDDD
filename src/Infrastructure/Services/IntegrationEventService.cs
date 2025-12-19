@@ -1,8 +1,8 @@
-﻿using Application.Common.Interfaces;
+﻿using AuthService.Application.Common.Interfaces;
 using Microsoft.Extensions.Logging;
 using Nexus.BuildingBlocks.Interfaces;
 
-namespace Infrastructure.Services
+namespace AuthService.Infrastructure.Services
 {
     public class IntegrationEventService : IIntegrationEventService
     {

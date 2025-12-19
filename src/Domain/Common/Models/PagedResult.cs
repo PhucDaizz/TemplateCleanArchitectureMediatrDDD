@@ -1,4 +1,4 @@
-﻿namespace Domain.Common.Models
+﻿namespace AuthService.Domain.Common.Models
 {
     public class PagedResult<T>
     {
