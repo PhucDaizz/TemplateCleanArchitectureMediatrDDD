@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using API;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 using System.Text;
 
 namespace CarbonTC.API.Extensions
@@ -47,8 +49,8 @@ namespace CarbonTC.API.Extensions
                     ValidAudience = audience,
                     ValidAudiences = allowedAudiences,
 
-                    NameClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier",
-                    RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+                    NameClaimType = ClaimTypes.NameIdentifier,
+                    RoleClaimType = ClaimTypes.Role
                 };
 
                 options.Events = new JwtBearerEvents
@@ -72,16 +74,26 @@ namespace CarbonTC.API.Extensions
 
                     OnAuthenticationFailed = context =>
                     {
-                        Console.WriteLine($"Authentication failed: {context.Exception.Message}");
+                        var logger = context.HttpContext.RequestServices.GetService<ILogger<Program>>();
+                        logger?.LogError($"Authentication failed: {context.Exception.Message}");
                         return Task.CompletedTask;
                     },
 
                     OnTokenValidated = context =>
                     {
+                        var principal = context.Principal;
+                        var userId = principal?.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                        var name = context.Principal?.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")?.Value;
-                        var email = context.Principal?.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value;
-                        var status = context.Principal?.FindFirst("status")?.Value;
+                        if (string.IsNullOrEmpty(userId))
+                        {
+                            userId = principal?.FindFirstValue("sub");
+                        }
+
+                        if (string.IsNullOrEmpty(userId))
+                        {
+                            Console.WriteLine("CẢNH BÁO: Token hợp lệ nhưng không tìm thấy User ID!");
+                        }
+
                         return Task.CompletedTask;
                     }
                 };

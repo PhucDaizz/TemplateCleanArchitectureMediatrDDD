@@ -22,6 +22,8 @@ namespace Infrastructure
         {
             // write your customizations here    
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
