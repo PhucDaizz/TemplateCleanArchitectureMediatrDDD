@@ -11,12 +11,12 @@ namespace AuthService.Infrastructure
         {
             _domainEventService = domainEventService;
         }
-/*
-        public DbSet<Listing> Listings { get; set; } = null!;
-        public DbSet<AuctionBid> AuctionBids { get; set; } = null!;
-        public DbSet<PriceSuggestion> PriceSuggestions { get; set; } = null!;
-        public DbSet<Transactions> Transactions { get; set; } = null!;
-        public DbSet<CreditInventory> CreditInventories { get; set; } = null!;*/
+        /*
+                public DbSet<Listing> Listings { get; set; } = null!;
+                public DbSet<AuctionBid> AuctionBids { get; set; } = null!;
+                public DbSet<PriceSuggestion> PriceSuggestions { get; set; } = null!;
+                public DbSet<Transactions> Transactions { get; set; } = null!;
+                public DbSet<CreditInventory> CreditInventories { get; set; } = null!;*/
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -28,14 +28,8 @@ namespace AuthService.Infrastructure
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            await DispatchDomainEventsAsync(cancellationToken);
-            return await base.SaveChangesAsync(cancellationToken);
-        }
-
-        private async Task DispatchDomainEventsAsync(CancellationToken cancellationToken = default)
-        {
             var domainEntities = ChangeTracker
-                .Entries<BaseEntity>()
+                .Entries<IHasDomainEvent>()
                 .Where(x => x.Entity.DomainEvents.Any())
                 .Select(x => x.Entity)
                 .ToList();
@@ -46,10 +40,14 @@ namespace AuthService.Infrastructure
 
             domainEntities.ForEach(entity => entity.ClearDomainEvents());
 
+            var result = await base.SaveChangesAsync(cancellationToken);
+
             foreach (var domainEvent in domainEvents)
             {
                 await _domainEventService.PublishAsync(domainEvent, cancellationToken);
             }
+
+            return result;
         }
     }
 }
