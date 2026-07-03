@@ -1,12 +1,7 @@
-using AuthService.API.Common.ExceptionHandling;
-using AuthService.API.ExceptionHandling;
 using AuthService.API.Extensions;
 using AuthService.API.StartUp;
 using AuthService.Application;
 using AuthService.Infrastructure;
-using Microsoft.AspNetCore.Http.Features;
-using Nexus.BuildingBlocks.Extensions;
-using System.Diagnostics;
 
 namespace AuthService.API
 {
@@ -16,24 +11,11 @@ namespace AuthService.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
-            builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+            builder.Services.AddCustomExceptionHandling();
+
             builder.Services.AddHealthChecks();
 
-            builder.Services.AddProblemDetails(options =>
-            {
-                options.CustomizeProblemDetails = context =>
-                {
-                    context.ProblemDetails.Instance = $"{context.HttpContext.Request.Method} {context.HttpContext.Request.Path}";
-                    context.ProblemDetails.Extensions.TryAdd("requestId", context.HttpContext.TraceIdentifier);
-                    Activity? activity = context.HttpContext.Features.Get<IHttpActivityFeature>()?.Activity;
-                    context.ProblemDetails.Extensions.TryAdd("traceId", activity?.Id);
-                };
-            });
-
             builder.Services.AddAuthenticationAndAuthorization(builder.Configuration);
-
-            builder.Services.AddSharedRabbitMQ(builder.Configuration);
 
             builder.AddDependencies();
             builder.Services.AddInfrastructure(builder.Configuration);

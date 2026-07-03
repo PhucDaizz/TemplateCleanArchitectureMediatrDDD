@@ -3,6 +3,7 @@ using AuthService.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Nexus.BuildingBlocks.Extensions;
 
 namespace AuthService.Infrastructure
 {
@@ -23,6 +24,8 @@ namespace AuthService.Infrastructure
 
             services.AddScoped<IDomainEventService, DomainEventService>();
             services.AddScoped<IIntegrationEventService, IntegrationEventService>();
+
+            services.AddSharedRabbitMQ(configuration);
 
             return services;
         }
