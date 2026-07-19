@@ -11,6 +11,7 @@ namespace AuthService.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddControllers();
             builder.Services.AddCustomExceptionHandling();
 
             builder.Services.AddHealthChecks();
@@ -24,14 +25,13 @@ namespace AuthService.API
 
             app.UseExceptionHandler();
 
-            app.UseSwaggerConfiguration();
+            app.UseOpenApiConfiguration();
 
             app.UseHttpsRedirection();
 
             app.MapHealthChecks("/health"); 
 
             app.UseAuthorization();
-
 
             app.MapControllers();
 

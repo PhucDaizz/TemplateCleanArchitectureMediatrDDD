@@ -5,7 +5,7 @@
         public static void AddDependencies(this WebApplicationBuilder builder)
         {
             builder.Services.AddControllers();
-            builder.Services.AddSwaggerServices();
+            builder.Services.AddOpenApiServices();
         }
     }
 }
