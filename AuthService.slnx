@@ -3,4 +3,5 @@
   <Project Path="src/Application/AuthService.Application.csproj" />
   <Project Path="src/Domain/AuthService.Domain.csproj" />
   <Project Path="src/Infrastructure/AuthService.Infrastructure.csproj" />
+  <Project Path="../src/Shared.Contracts/Shared.Contracts.csproj" />
 </Solution>

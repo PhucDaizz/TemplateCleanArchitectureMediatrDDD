@@ -1,4 +1,4 @@
-﻿using AuthService.Application.DTOs.Events;
+﻿using Shared.Contracts.Events;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 

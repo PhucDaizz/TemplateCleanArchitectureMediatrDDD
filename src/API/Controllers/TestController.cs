@@ -1,5 +1,5 @@
 ﻿using AuthService.Application.Common.Interfaces;
-using AuthService.Application.DTOs.Events;
+using Shared.Contracts.Events;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthService.API.Controllers
