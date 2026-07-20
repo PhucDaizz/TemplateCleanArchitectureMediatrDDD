@@ -1,9 +1,10 @@
 ﻿using AuthService.Application.Common.Interfaces;
 using AuthService.Infrastructure.Services;
+using AuthService.Infrastructure.Settings;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Nexus.BuildingBlocks.Extensions;
 
 namespace AuthService.Infrastructure
 {
@@ -19,14 +20,29 @@ namespace AuthService.Infrastructure
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
+            var rabbitMQConfig = configuration.GetSection("RabbitMQ").Get<RabbitMQSetting>();
+            services.AddMassTransit(cfg =>
+            {
+                cfg.AddConsumers(typeof(DependencyInjection).Assembly);
+                cfg.UsingRabbitMq((context, rabbitCfg) =>
+                {
+                    rabbitCfg.Host(rabbitMQConfig!.HostName, "/", h => {
+                        h.Username(rabbitMQConfig.UserName);
+                        h.Password(rabbitMQConfig.Password);
+                    });
+
+                    rabbitCfg.AutoDelete = false;
+                    rabbitCfg.Durable = true;    
+
+                    rabbitCfg.ConfigureEndpoints(context);
+                });
+            });
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
             services.AddScoped<IDomainEventService, DomainEventService>();
             services.AddScoped<IIntegrationEventService, IntegrationEventService>();
-
-            services.AddSharedRabbitMQ(configuration);
-
             return services;
         }
     }

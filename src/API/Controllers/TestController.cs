@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AuthService.Application.Common.Interfaces;
+using AuthService.Application.DTOs.Events;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AuthService.API.Controllers
 {
@@ -6,6 +8,12 @@ namespace AuthService.API.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
+        private readonly IIntegrationEventService _eventService;
+
+        public TestController(IIntegrationEventService eventService)
+        {
+            _eventService = eventService;
+        }
 
         /// <summary>
         /// test
@@ -16,5 +24,24 @@ namespace AuthService.API.Controllers
         {
             return Ok("Hello word!");
         }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] Application.DTOs.RegisterRequest request)
+        {
+            var userId = Guid.NewGuid();
+
+            var userRegisteredEvent = new UserRegisteredEvent
+            {
+                UserId = userId,
+                Email = request.Email,
+                FullName = request.FullName,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            await _eventService.PublishAsync(userRegisteredEvent);
+
+            return Ok(new { Message = "Đăng ký thành công!", UserId = userId });
+        }
+
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Domain.Common.Response
+﻿namespace AuthService.Application.Common.Response
 {
     public class Result
     {
