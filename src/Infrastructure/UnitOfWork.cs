@@ -1,5 +1,5 @@
 ﻿using AuthService.Application.Common.Interfaces;
-using Infrastructure;
+using AuthService.Domain.Repositories;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace AuthService.Infrastructure
@@ -8,11 +8,22 @@ namespace AuthService.Infrastructure
     {
         private readonly ApplicationDbContext _context;
         private IDbContextTransaction? _transaction;
+        private readonly IArticleRepository _articleRepository; 
+        private readonly ISubcriberRepository _subcriberRepository;
 
-        public UnitOfWork(ApplicationDbContext context)
+        public UnitOfWork(ApplicationDbContext context,
+            IArticleRepository articleRepository,
+            ISubcriberRepository subcriberRepository)
         {
             _context = context;
+            _articleRepository = articleRepository;
+            _subcriberRepository = subcriberRepository;
         }
+
+        public IArticleRepository ArticleRepository => _articleRepository;
+        public ISubcriberRepository SubcriberRepository => _subcriberRepository;
+
+
         public async Task BeginTransactionAsync()
         {
             _transaction = await _context.Database.BeginTransactionAsync();

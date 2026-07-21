@@ -1,5 +1,6 @@
 ﻿using AuthService.Application.Common.Interfaces;
 using AuthService.Domain.Common;
+using AuthService.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthService.Infrastructure
@@ -11,12 +12,15 @@ namespace AuthService.Infrastructure
         {
             _domainEventService = domainEventService;
         }
-        /*
-                public DbSet<Listing> Listings { get; set; } = null!;
-                public DbSet<AuctionBid> AuctionBids { get; set; } = null!;
-                public DbSet<PriceSuggestion> PriceSuggestions { get; set; } = null!;
-                public DbSet<Transactions> Transactions { get; set; } = null!;
-                public DbSet<CreditInventory> CreditInventories { get; set; } = null!;*/
+        
+        public DbSet<Article> Articles { get; set; }
+        public DbSet<Section> Sections { get; set; }
+        public DbSet<Subscriber> Subscribers { get; set; }
+
+        public IQueryable<Article> ArticlesQuery => Articles.AsQueryable();
+        public IQueryable<Section> SectionsQuery => Sections.AsQueryable();
+        public IQueryable<Subscriber> SubscriberQuery => Subscribers.AsQueryable();
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

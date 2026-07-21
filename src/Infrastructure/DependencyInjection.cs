@@ -1,4 +1,6 @@
 ﻿using AuthService.Application.Common.Interfaces;
+using AuthService.Domain.Repositories;
+using AuthService.Infrastructure.Data.Repositories;
 using AuthService.Infrastructure.Services;
 using AuthService.Infrastructure.Settings;
 using MassTransit;
@@ -13,10 +15,10 @@ namespace AuthService.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-               options.UseMySql(
-                   configuration.GetConnectionString("DefaultConnection"),
-                   new MySqlServerVersion(new Version(8, 0, 21)),
-                   b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+            {
+                var connectionString = configuration.GetConnectionString("DefaultConnection");
+                options.UseSqlServer(connectionString);
+            });
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
@@ -40,6 +42,8 @@ namespace AuthService.Infrastructure
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            services.AddScoped<ISubcriberRepository, SubcriberRepository>();
+            services.AddScoped<IArticleRepository, ArticleRepository>();
 
             services.AddScoped<IDomainEventService, DomainEventService>();
             services.AddScoped<IIntegrationEventService, IntegrationEventService>();
