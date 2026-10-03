@@ -1,6 +1,8 @@
 ﻿using AuthService.Application.Common.Interfaces;
 using AuthService.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using System.Data;
 
 namespace AuthService.Infrastructure
 {
@@ -23,6 +25,9 @@ namespace AuthService.Infrastructure
         public IArticleRepository ArticleRepository => _articleRepository;
         public ISubcriberRepository SubcriberRepository => _subcriberRepository;
 
+        public IDbConnection Connection => _context.Database.GetDbConnection();
+        public IDbTransaction? Transaction => _transaction?.GetDbTransaction();
+
 
         public async Task BeginTransactionAsync()
         {
@@ -42,7 +47,6 @@ namespace AuthService.Infrastructure
         public void Dispose()
         {
             _transaction?.Dispose();
-            _context.Dispose();
         }
 
         public async Task RollbackTransactionAsync()

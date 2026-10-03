@@ -1,5 +1,7 @@
 ﻿using AuthService.Application.Common.Interfaces;
+using AuthService.Application.Common.Interfaces.Repository;
 using AuthService.Domain.Repositories;
+using AuthService.Infrastructure.Data;
 using AuthService.Infrastructure.Data.Repositories;
 using AuthService.Infrastructure.Services;
 using AuthService.Infrastructure.Settings;
@@ -41,7 +43,9 @@ namespace AuthService.Infrastructure
             });
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddSingleton<ISqlConnectionFactory, SqlConnectionFactory>();
 
+            services.AddScoped<IArticleDapperRepository, ArticleDapperRepository>();
             services.AddScoped<ISubcriberRepository, SubcriberRepository>();
             services.AddScoped<IArticleRepository, ArticleRepository>();
 

@@ -1,4 +1,5 @@
 ﻿using AuthService.Application.Features.Article.Commands.CreateArticle;
+using AuthService.Application.Features.Article.Commands.CreateArticleDapper;
 using AuthService.Application.Features.Article.Commands.PublishArticle;
 using AuthService.Application.Features.Article.Queries.GetArticleById;
 using AuthService.Application.Features.Article.Queries.GetPublishedArticles;
@@ -77,6 +78,26 @@ namespace AuthService.API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create([FromBody] CreateArticleCommand command)
+        {
+            var result = await _mediator.Send(command);
+
+            if (!result.IsSuccess)
+                return BadRequest(result.Error);
+
+            return CreatedAtAction(nameof(GetById), new { id = result.Value.Id }, result.Value);
+        }
+
+        /// <summary>
+        /// Tạo bài viết mới bằng Dapper (mẫu dùng Dapper + Transaction)
+        /// </summary>
+        /// <param name="command">Thông tin bài viết cần tạo</param>
+        /// <returns>Bài viết vừa được tạo</returns>
+        /// <response code="201">Tạo bài viết thành công</response>
+        /// <response code="400">Dữ liệu đầu vào không hợp lệ</response>
+        [HttpPost("dapper")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateWithDapper([FromBody] CreateArticleDapperCommand command)
         {
             var result = await _mediator.Send(command);
 
